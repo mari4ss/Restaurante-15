@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #e2e0dd;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #333;
+            font-size: 12px;
+        }
+
+        .panel {
+            background: #f5f7f9;
+            border: 1px solid #e5e8eb;
+            padding: 8px 5px;
+        }
+
+        .panel-top {
+            width: 78.2%;
+            height: 99px;
+            margin: 26px auto 24px;
+        }
+
+        .panel-bottom {
+            width: 90.5%;
+            min-height: 108px;
+            margin: 49px auto 30px;
+        }
+
+        h2 {
+            margin: 0 0 7px;
+            text-align: center;
+            color: #1684e8;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 10px;
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        th {
+            padding: 5px 6px;
+            text-align: left;
+            background: #1684e8;
+            color: white;
+            font-weight: normal;
+            border-right: 1px solid #d7e5f4;
+        }
+
+        td {
+            padding: 6px;
+            border-right: 1px solid #e2e5e8;
+            border-bottom: 1px solid #e2e5e8;
+            background: #fff;
+        }
+
+        th:last-child,
+        td:last-child {
+            border-right: 0;
+        }
+
+        .button {
+            display: inline-block;
+            border: 0;
+            border-radius: 3px;
+            padding: 7px 10px;
+            font-size: 10px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .add-button {
+            margin-top: 8px;
+            color: #fff;
+            background: #4a9b50;
+            padding: 7px 9px;
+        }
+
+        .form-panel {
+            width: 62.1%;
+            height: 244px;
+            margin: 0 auto;
+            padding: 0 35px 20px;
+            background: #f5f7f9;
+            border: 1px solid #e5e8eb;
+        }
+
+        .form-panel h1 {
+            margin: 0 0 11px;
+            text-align: center;
+            color: #1684e8;
+            font-size: 30px;
+            line-height: 40px;
+            font-weight: 700;
+        }
+
+        .form-card {
+            width: 100%;
+            padding: 13px 14px 14px;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 2px 14px rgba(0, 0, 0, 0.06);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            height: 28px;
+            margin-bottom: 19px;
+            padding: 6px 8px;
+            border: 1px solid #dce2e8;
+            border-radius: 4px;
+            background: #e8f1ff;
+            color: #444;
+            font-family: inherit;
+            font-size: 11px;
+        }
+
+        input:focus {
+            outline: 2px solid #888;
+            outline-offset: 0;
+        }
+
+        .form-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 2px;
+        }
+
+        .save-button {
+            color: white;
+            background: #1684e8;
+            border: 1px solid #0e74d4;
+            padding: 8px 14px;
+            font-size: 11px;
+        }
+
+        .cancel-button {
+            color: #1684e8;
+            background: transparent;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .action-link {
+            margin-right: 8px;
+            color: #1684e8;
+            text-decoration: none;
+            font-size: 10px;
+        }
+
+        .delete-link {
+            color: #e32626;
+        }
+
+        @media (max-width: 600px) {
+            .panel-top,
+            .panel-bottom,
+            .form-panel {
+                width: 94%;
+            }
+
+            .form-panel {
+                height: auto;
+                padding: 0 12px 16px;
+            }
+
+            .form-panel h1 {
+                font-size: 25px;
+            }
+
+            table {
+                font-size: 9px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tabela superior -->
+    <section class="panel panel-top">
+        <h2>Produtos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Preço</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaSuperior"></tbody>
+        </table>
+        <button class="button add-button" type="button" onclick="focarCadastro()">Cadastrar Produto</button>
+    </section>
+
+    <!-- Formulário de cadastro -->
+    <section class="form-panel" id="cadastro">
+        <h1>Cadastrar Produto</h1>
+        <div class="form-card">
+            <form id="formProduto">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" value="Espaguete à Carbonara" required>
+
+                <label for="preco">Preço:</label>
+                <input type="number" id="preco" value="60" min="0.01" step="0.01" required>
+
+                <div class="form-actions">
+                    <button class="button save-button" type="submit">Salvar</button>
+                    <button class="button cancel-button" type="button" onclick="limparFormulario()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Tabela inferior -->
+    <section class="panel panel-bottom">
+        <h2>Produtos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 9%;">ID</th>
+                    <th style="width: 43%;">Nome</th>
+                    <th style="width: 15%;">Preço</th>
+                    <th style="width: 33%;">Ações</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaInferior"></tbody>
+        </table>
+        <button class="button add-button" type="button" onclick="novoCadastro()">Cadastrar Produto</button>
+    </section>
+
+    <script>
+        let produtos = [
+            { id: 2, nome: "Espaguete à Carbonara", preco: 60.00 }
+        ];
+        let proximoId = 3;
+        let idEditando = null;
+
+        function formatarPreco(valor) {
+            return Number(valor).toFixed(1);
+        }
+
+        function renderizarTabelas() {
+            const conteudo = produtos.map(produto => `
+                <tr>
+                    <td>${produto.id}</td>
+                    <td>${produto.nome}</td>
+                    <td>${formatarPreco(produto.preco)}</td>
+                    <td>
+                        <a class="action-link" href="#" onclick="editarProduto(${produto.id}); return false;">Editar</a>
+                        <a class="action-link delete-link" href="#" onclick="excluirProduto(${produto.id}); return false;">Excluir</a>
+                    </td>
+                </tr>
+            `).join("");
+
+            document.getElementById("tabelaSuperior").innerHTML = conteudo;
+            document.getElementById("tabelaInferior").innerHTML = conteudo;
+        }
+
+        document.getElementById("formProduto").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const nome = document.getElementById("nome").value.trim();
+            const preco = Number(document.getElementById("preco").value);
+
+            if (!nome || !Number.isFinite(preco) || preco <= 0) {
+                alert("Informe um nome e um preço válido.");
+                return;
+            }
+
+            if (idEditando !== null) {
+                const produto = produtos.find(item => item.id === idEditando);
+                produto.nome = nome;
+                produto.preco = preco;
+            } else {
+                produtos.push({ id: proximoId++, nome: nome, preco: preco });
+            }
+
+            idEditando = null;
+            limparFormulario();
+            renderizarTabelas();
+        });
+
+        function editarProduto(id) {
+            const produto = produtos.find(item => item.id === id);
+            if (!produto) return;
+
+            idEditando = id;
+            document.getElementById("nome").value = produto.nome;
+            document.getElementById("preco").value = produto.preco;
+            document.getElementById("cadastro").scrollIntoView({ behavior: "smooth" });
+        }
+
+        function excluirProduto(id) {
+            produtos = produtos.filter(item => item.id !== id);
+            renderizarTabelas();
+        }
+
+        function focarCadastro() {
+            document.getElementById("nome").focus();
+            document.getElementById("cadastro").scrollIntoView({ behavior: "smooth" });
+        }
+
+        function novoCadastro() {
+            idEditando = null;
+            document.getElementById("formProduto").reset();
+            document.getElementById("cadastro").scrollIntoView({ behavior: "smooth" });
+            document.getElementById("nome").focus();
+        }
+
+        function limparFormulario() {
+            document.getElementById("formProduto").reset();
+            idEditando = null;
+        }
+
+        renderizarTabelas();
+    </script>
+
+</body>
+</html>
