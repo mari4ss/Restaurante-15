@@ -1,0 +1,122 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Produtos</title>
+</head>
+
+<body>
+
+    <h1>Cadastro de Produtos Alimentícios</h1>
+
+    <h2>Cadastrar Produto</h2>
+
+    <form id="formProduto">
+        <label>Nome:</label>
+        <input type="text" id="nome" required>
+
+        <label>Preço:</label>
+        <input type="number" id="preco" step="0.01" min="0.01" required>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <br>
+
+    <h2>Produtos Cadastrados</h2>
+
+    <table border="1">
+
+        <thead>
+            <tr>
+                <th>ID do Produto</th>
+                <th>Nome</th>
+                <th>Preço</th>
+            </tr>
+        </thead>
+
+        <tbody id="tabelaProdutos">
+        </tbody>
+
+    </table>
+
+    <script>
+
+        // Produtos cadastrados inicialmente
+        let produtos = [
+            { id: 1, nome: "Arroz", preco: 25.90 },
+            { id: 2, nome: "Feijão", preco: 8.50 },
+            { id: 3, nome: "Macarrão", preco: 5.99 },
+            { id: 4, nome: "Açúcar", preco: 4.75 },
+            { id: 5, nome: "Café", preco: 16.90 },
+            { id: 6, nome: "Leite", preco: 5.49 },
+            { id: 7, nome: "Óleo de soja", preco: 7.99 },
+            { id: 8, nome: "Farinha de trigo", preco: 6.25 },
+            { id: 9, nome: "Biscoito", preco: 3.50 },
+            { id: 10, nome: "Molho de tomate", preco: 2.99 }
+        ];
+
+        // Função para mostrar os produtos na tabela
+        function listarProdutos() {
+
+            let tabela = document.getElementById("tabelaProdutos");
+
+            tabela.innerHTML = "";
+
+            produtos.forEach(function(produto) {
+
+                let linha = tabela.insertRow();
+
+                linha.insertCell(0).textContent = produto.id;
+                linha.insertCell(1).textContent = produto.nome;
+
+                linha.insertCell(2).textContent =
+                    produto.preco.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL"
+                    });
+
+            });
+
+        }
+
+        // Função para cadastrar um produto
+        document.getElementById("formProduto").addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            let nome = document.getElementById("nome").value.trim();
+            let preco = Number(document.getElementById("preco").value);
+
+            if (nome === "" || !Number.isFinite(preco) || preco <= 0) {
+                alert("Digite um nome e um preço válido.");
+                return;
+            }
+
+            let novoId = Math.max(...produtos.map(function(produto) {
+                return produto.id;
+            })) + 1;
+
+            let novoProduto = {
+                id: novoId,
+                nome: nome,
+                preco: preco
+            };
+
+            produtos.push(novoProduto);
+
+            listarProdutos();
+
+            document.getElementById("formProduto").reset();
+
+        });
+
+        // Mostrar os produtos ao abrir a página
+        listarProdutos();
+
+    </script>
+
+</body>
+</html>
+```
